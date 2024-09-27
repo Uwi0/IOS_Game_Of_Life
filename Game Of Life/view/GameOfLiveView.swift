@@ -33,7 +33,9 @@ struct GameOfLiveView: View {
                             on: .main,
                             in: .common
                         ).autoconnect()
-                        board.nextGeneration()
+                        if isPlaying {
+                            board.nextGeneration()
+                        }
                     }
                 Spacer()
                 ControlView(
