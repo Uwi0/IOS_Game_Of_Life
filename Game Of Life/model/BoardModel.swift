@@ -37,4 +37,14 @@ struct BoardModel {
     static func deafultBoard(numRows: Int, numCol: Int) -> BoardModel {
         return BoardModel(numRow: numRows, numColumn: numCol)
     }
+    
+    func getCreature(i: Int) -> Int {
+        return board[i]
+    }
+    
+    func vitatlity(creature: Int) -> Double {
+        let nonNormalized = CDouble(MAX_CREATURE_AGE - creature)
+        let normalizationFactor: Double = Double(MAX_CREATURE_AGE - 1)
+        return nonNormalized / normalizationFactor
+    }
 }
