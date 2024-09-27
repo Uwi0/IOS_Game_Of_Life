@@ -3,8 +3,9 @@ import SwiftUI
 struct ButtonView: View {
     
     let image: String
-    let font: Font
+    
     let action: () -> Void
+    var font: Font = .largeTitle
     var color: Color = .white
     
     var body: some View {
@@ -24,7 +25,6 @@ struct ButtonView: View {
 
         ButtonView(
             image: "pause",
-            font: .largeTitle,
             action: {
                 
             },

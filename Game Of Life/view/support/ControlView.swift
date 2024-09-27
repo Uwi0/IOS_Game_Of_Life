@@ -21,30 +21,22 @@ struct ControlView: View {
                 .accentColor(.red)
                 .padding(.horizontal)
             HStack(spacing: 15) {
-                ControlButtonView(
+                ButtonView(
                     image: playImage,
                     action: { isPlaying.toggle()}
                 )
+                
+                ButtonView(
+                    image: "arrow.counterclockwise",
+                    action: {}
+                )
+                
+                ButtonView(
+                    image: "clear",
+                    action: {}
+                )
             }
         }
-    }
-}
-
-private struct ControlButtonView: View {
-    
-    let image: String
-    let action: () -> Void
-    
-    var body: some View {
-        Button(
-            action: action,
-            label: {
-                Image(systemName: image)
-                    .font(.largeTitle)
-                    .foregroundStyle(.white)
-            }
-        )
-        
     }
 }
 
