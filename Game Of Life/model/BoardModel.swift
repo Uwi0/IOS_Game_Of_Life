@@ -3,25 +3,25 @@ import Foundation
 struct BoardModel {
     var numRows: Int
     var numCols: Int
-    var board: [Int]
+    var board: [Int] // 0 represents dead and greater than zero represents how many generations repeated.
     var surviveRules: [Bool]
     var bornRules: [Bool]
-    
     let defaultSurviveRules: [Bool] = [
         false, false, true, true, false, false,
         false,false,false
     ]
-    
     let defaultBornRules: [Bool] = [
         false, false, false, true, false, false,
         false,false,false
     ]
-    let MAX_CREATURE_AGE: Int = 10
+    let MAX_CREATURE_AGE = 10
     
-    init(numRow: Int, numColumn: Int) {
-        self.numRows = numRow
-        self.numCols = numColumn
-        self.board = Array(repeating: 1, count: numRow * numColumn)
+    init(numRows: Int, numCols: Int) {
+        self.numRows = numRows
+        self.numCols = numCols
+        self.board = Array(
+            repeating: 1,
+            count: numRows*numCols)
         self.surviveRules = defaultSurviveRules
         self.bornRules = defaultBornRules
         self.randomBoard()
@@ -34,8 +34,10 @@ struct BoardModel {
         }
     }
     
-    static func deafultBoard(numRows: Int, numCol: Int) -> BoardModel {
-        return BoardModel(numRow: numRows, numColumn: numCol)
+    static func defaultBoard( numRows: Int, numCols: Int) -> BoardModel {
+        return BoardModel(
+            numRows: numRows,
+            numCols: numCols)
     }
     
     func getCreature(i: Int) -> Int {
@@ -43,26 +45,30 @@ struct BoardModel {
     }
     
     func getCreature(i: Int, j: Int) -> Int {
-        let offsetColumn = (i + numCols) % numCols
-        let offsetRow = (i + numRows) % numRows
+        let offsetCols = (i + numCols) % numCols
+        let offsetRows = (j + numRows) % numRows
         
-        return board[offsetColumn * numCols + offsetRow]
+        return board[offsetCols*numCols + offsetRows]
     }
     
-    mutating func setCreature( i: Int, j: Int, creature: Int) {
+    // Set creature
+    mutating func setCreature(i: Int, j: Int, creature: Int) {
         board[i*numCols+j] = creature
     }
     
-    func vitatlity(creature: Int) -> Double {
-        let nonNormalized = CDouble(MAX_CREATURE_AGE - creature)
+    // Return a result between 0 and 1
+    func vitality(creature: Int) -> Double {
+        let nonNormalizedVitality = Double(MAX_CREATURE_AGE - creature)
         let normalizationFactor: Double = Double(MAX_CREATURE_AGE - 1)
-        return nonNormalized / normalizationFactor
+        return nonNormalizedVitality / normalizationFactor
     }
     
+    // Clear board
     mutating func clearBoard() {
-        board = Array(repeating: 0, count: numRows * numCols)
+        board = Array(repeating: 0, count: numRows*numCols)
     }
     
+    // Count number of neighbours
     func countNeighbours(i: Int, j: Int) -> Int {
         var count = 0
         
@@ -92,14 +98,16 @@ struct BoardModel {
                 let count = countNeighbours(i: i, j: j)
                 let creature = getCreature(i: i, j: j)
                 
+                // Is creature dead ?
                 if creature == 0 {
+                    // Create a newborn creature ?
                     if bornRules[count] {
                         newBoard.setCreature(
                             i: i,
                             j: j,
                             creature: 1)
                     }
-                } else {
+                } else { // Does this creature die ?
                     if !surviveRules[count] {
                         newBoard.setCreature(
                             i: i,

@@ -15,9 +15,9 @@ struct BoardView: View {
     
     var body: some View {
         LazyVGrid(columns: gridItemLayout, spacing: 0) {
-            ForEach(0..<numColumns*numRows, id: \.self) { i in
+            ForEach(0 ..< (numColumns * numRows), id: \.self) { i in
                 let creature = board.getCreature(i: i)
-                let vitality = board.vitatlity(creature: creature)
+                let vitality = board.vitality(creature: creature)
                 let isDead = creature == 0
                 let creatureColor = creatureColor(isDead, vitality)
                 
@@ -41,7 +41,7 @@ struct BoardView: View {
 
 #Preview {
     BoardView(
-        board: .constant(.deafultBoard(numRows: 25, numCol: 25)),
+        board: .constant(.defaultBoard(numRows: 25, numCols: 25)),
         isGridShowing: .constant(false)
     )
 }
