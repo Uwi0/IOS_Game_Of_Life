@@ -7,7 +7,8 @@ struct ControlView: View {
     @Binding var rulesShowing: Bool
     @Binding var infoShowing: Bool
     @Binding var isPlaying: Bool
-    @Binding var boardModel: BoardModel
+    @Binding var disableAllButton: Bool
+    @Binding var board: BoardModel
     
     private var playImage: String {
         isPlaying ? "play" : "pause"
@@ -28,12 +29,38 @@ struct ControlView: View {
                 
                 ButtonView(
                     image: "arrow.counterclockwise",
-                    action: {}
+                    action: {
+                        board.randomBoard()
+                    }
                 )
                 
                 ButtonView(
                     image: "clear",
-                    action: {}
+                    action: {
+                        board.clearBoard()
+                    }
+                )
+                
+                ButtonView(
+                    image: "grid",
+                    action: {
+                        isGridShowing.toggle()
+                        disableAllButton.toggle()
+                    }
+                )
+                
+                ButtonView(
+                    image: "text.book.closed",
+                    action: {
+                        rulesShowing.toggle()
+                    }
+                )
+                
+                ButtonView(
+                    image: "info.circle",
+                    action: {
+                        infoShowing.toggle()
+                    }
                 )
             }
         }
@@ -49,7 +76,8 @@ struct ControlView: View {
             rulesShowing: .constant(false),
             infoShowing: .constant(false),
             isPlaying: .constant(true),
-            boardModel: .constant(.defaultBoard(numRows: 25, numCols: 25))
+            disableAllButton: .constant(false),
+            board: .constant(.defaultBoard(numRows: 25, numCols: 25))
         )
     }
 }

@@ -8,6 +8,7 @@ struct GameOfLiveView: View {
     @State var rulesShowing: Bool = false
     @State var infoShowing: Bool = false
     @State var isPlaying: Bool = false
+    @State var disableAllButton: Bool = false
     @State var timer = Timer.publish(
         every: 0.1,
         tolerance: 0.5,
@@ -41,7 +42,8 @@ struct GameOfLiveView: View {
                     rulesShowing: $rulesShowing,
                     infoShowing: $infoShowing,
                     isPlaying: $isPlaying,
-                    boardModel: $board
+                    disableAllButton: $disableAllButton,
+                    board: $board
                 )
             }
             .padding()
