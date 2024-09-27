@@ -6,7 +6,7 @@ struct GameOfLiveView: View {
             bgColor.opacity(0.6)
                 .ignoresSafeArea()
             VStack {
-                Text("Cool Title View")
+                CoolTitleView()
                 Text("Board View")
                 Spacer()
                 Text("Controll View")
