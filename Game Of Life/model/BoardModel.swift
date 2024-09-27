@@ -42,9 +42,78 @@ struct BoardModel {
         return board[i]
     }
     
+    func getCreature(i: Int, j: Int) -> Int {
+        let offsetColumn = (i + numColumn) % numColumn
+        let offsetRow = (i + numRow) % numRow
+        
+        return board[offsetColumn * numColumn + offsetRow]
+    }
+    
+    mutating func setCreature( i: Int, j: Int, creature: Int) {
+        board[i*numColumn+j] = creature
+    }
+    
     func vitatlity(creature: Int) -> Double {
         let nonNormalized = CDouble(MAX_CREATURE_AGE - creature)
         let normalizationFactor: Double = Double(MAX_CREATURE_AGE - 1)
         return nonNormalized / normalizationFactor
     }
+    
+    mutating func clearBoard() {
+        board = Array(repeating: 0, count: numRow * numColumn)
+    }
+    
+    func countNeighbours(i: Int, j: Int) -> Int {
+        var count = 0
+        
+        // j-1
+        for k in [-1,0,1] { // k = -1,0,1
+            count += getCreature(i: i-k, j: j-1) > 0 ? 1 : 0
+        }
+        
+        // j
+        for k in [-1,1] { // k = -1,1
+            count += getCreature(i: i-k, j: j) > 0 ? 1 : 0
+        }
+        
+        // j+1
+        for k in [-1,0,1] { // k = -1,0,1
+            count += getCreature(i: i-k, j: j+1) > 0 ? 1 : 0
+        }
+        
+        return count
+    }
+    
+    mutating func nextGeneration() {
+        var newBoard: BoardModel = self
+        
+        for i in 0..<numColumn {
+            for j in 0..<numRow {
+                let count = countNeighbours(i: i, j: j)
+                let creature = getCreature(i: i, j: j)
+                
+                if creature == 0 {
+                    if bordRules[count] {
+                        newBoard.setCreature(
+                            i: i,
+                            j: j,
+                            creature: 1)
+                    }
+                } else {
+                    if !surviveRules[count] {
+                        newBoard.setCreature(
+                            i: i,
+                            j: j,
+                            creature: 0)
+                    } else {
+                        let newCreatureAge = creature < MAX_CREATURE_AGE ? creature + 1 : MAX_CREATURE_AGE
+                        newBoard.setCreature(i: i, j: j, creature: newCreatureAge)
+                    }
+                }
+            }
+        }
+        
+        self.board = newBoard.board
+    }
+    
 }
