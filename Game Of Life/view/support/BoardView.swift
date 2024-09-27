@@ -17,12 +17,13 @@ struct BoardView: View {
         LazyVGrid(columns: gridItemLayout, spacing: 0) {
             ForEach(0..<numColumns*numRows, id: \.self) { i in
                 let creature = board.getCreature(i: i)
-                let vitality = board.vitatlity(creature: i)
+                let vitality = board.vitatlity(creature: creature)
                 let isDead = creature == 0
                 let creatureColor = creatureColor(isDead, vitality)
                 
                 Rectangle()
                     .fill(creatureColor)
+                    .aspectRatio(1, contentMode: .fit)
                     .border(borderColor)
             }
             .overlay {
