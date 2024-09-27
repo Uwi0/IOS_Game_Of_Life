@@ -4,8 +4,8 @@ struct BoardView: View {
     @Binding var board: BoardModel
     @Binding var isGridShowing: Bool
     
-    private var numRows: Int { board.numRow }
-    private var numColumns: Int { board.numColumn }
+    private var numRows: Int { board.numRows }
+    private var numColumns: Int { board.numCols }
     private var gridItemLayout: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: 0), count: numRows)
     }

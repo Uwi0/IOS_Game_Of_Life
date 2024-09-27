@@ -1,11 +1,11 @@
 import Foundation
 
 struct BoardModel {
-    var numRow: Int
-    var numColumn: Int
+    var numRows: Int
+    var numCols: Int
     var board: [Int]
     var surviveRules: [Bool]
-    var bordRules: [Bool]
+    var bornRules: [Bool]
     
     let defaultSurviveRules: [Bool] = [
         false, false, true, true, false, false,
@@ -19,11 +19,11 @@ struct BoardModel {
     let MAX_CREATURE_AGE: Int = 10
     
     init(numRow: Int, numColumn: Int) {
-        self.numRow = numRow
-        self.numColumn = numColumn
+        self.numRows = numRow
+        self.numCols = numColumn
         self.board = Array(repeating: 1, count: numRow * numColumn)
         self.surviveRules = defaultSurviveRules
-        self.bordRules = defaultBornRules
+        self.bornRules = defaultBornRules
         self.randomBoard()
     }
     
@@ -43,14 +43,14 @@ struct BoardModel {
     }
     
     func getCreature(i: Int, j: Int) -> Int {
-        let offsetColumn = (i + numColumn) % numColumn
-        let offsetRow = (i + numRow) % numRow
+        let offsetColumn = (i + numCols) % numCols
+        let offsetRow = (i + numRows) % numRows
         
-        return board[offsetColumn * numColumn + offsetRow]
+        return board[offsetColumn * numCols + offsetRow]
     }
     
     mutating func setCreature( i: Int, j: Int, creature: Int) {
-        board[i*numColumn+j] = creature
+        board[i*numCols+j] = creature
     }
     
     func vitatlity(creature: Int) -> Double {
@@ -60,7 +60,7 @@ struct BoardModel {
     }
     
     mutating func clearBoard() {
-        board = Array(repeating: 0, count: numRow * numColumn)
+        board = Array(repeating: 0, count: numRows * numCols)
     }
     
     func countNeighbours(i: Int, j: Int) -> Int {
@@ -87,13 +87,13 @@ struct BoardModel {
     mutating func nextGeneration() {
         var newBoard: BoardModel = self
         
-        for i in 0..<numColumn {
-            for j in 0..<numRow {
+        for i in 0..<numCols {
+            for j in 0..<numRows {
                 let count = countNeighbours(i: i, j: j)
                 let creature = getCreature(i: i, j: j)
                 
                 if creature == 0 {
-                    if bordRules[count] {
+                    if bornRules[count] {
                         newBoard.setCreature(
                             i: i,
                             j: j,
