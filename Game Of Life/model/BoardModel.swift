@@ -3,7 +3,7 @@ import Foundation
 struct BoardModel {
     var numRows: Int
     var numCols: Int
-    var board: [Int] // 0 represents dead and greater than zero represents how many generations repeated.
+    var board: [Int]
     var surviveRules: [Bool]
     var bornRules: [Bool]
     let defaultSurviveRules: [Bool] = [
@@ -34,7 +34,7 @@ struct BoardModel {
         }
     }
     
-    static func defaultBoard( numRows: Int, numCols: Int) -> BoardModel {
+    static func defaultBoard(numRows: Int, numCols: Int) -> BoardModel {
         return BoardModel(
             numRows: numRows,
             numCols: numCols)
@@ -51,39 +51,32 @@ struct BoardModel {
         return board[offsetCols*numCols + offsetRows]
     }
     
-    // Set creature
     mutating func setCreature(i: Int, j: Int, creature: Int) {
         board[i*numCols+j] = creature
     }
     
-    // Return a result between 0 and 1
     func vitality(creature: Int) -> Double {
         let nonNormalizedVitality = Double(MAX_CREATURE_AGE - creature)
         let normalizationFactor: Double = Double(MAX_CREATURE_AGE - 1)
         return nonNormalizedVitality / normalizationFactor
     }
     
-    // Clear board
     mutating func clearBoard() {
         board = Array(repeating: 0, count: numRows*numCols)
     }
     
-    // Count number of neighbours
     func countNeighbours(i: Int, j: Int) -> Int {
         var count = 0
         
-        // j-1
-        for k in [-1,0,1] { // k = -1,0,1
+        for k in [-1,0,1] {
             count += getCreature(i: i-k, j: j-1) > 0 ? 1 : 0
         }
         
-        // j
-        for k in [-1,1] { // k = -1,1
+        for k in [-1,1] {
             count += getCreature(i: i-k, j: j) > 0 ? 1 : 0
         }
         
-        // j+1
-        for k in [-1,0,1] { // k = -1,0,1
+        for k in [-1,0,1] {
             count += getCreature(i: i-k, j: j+1) > 0 ? 1 : 0
         }
         
@@ -98,16 +91,14 @@ struct BoardModel {
                 let count = countNeighbours(i: i, j: j)
                 let creature = getCreature(i: i, j: j)
                 
-                // Is creature dead ?
                 if creature == 0 {
-                    // Create a newborn creature ?
                     if bornRules[count] {
                         newBoard.setCreature(
                             i: i,
                             j: j,
                             creature: 1)
                     }
-                } else { // Does this creature die ?
+                } else {
                     if !surviveRules[count] {
                         newBoard.setCreature(
                             i: i,

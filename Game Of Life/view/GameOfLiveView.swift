@@ -4,6 +4,10 @@ struct GameOfLiveView: View {
     
     @State var board: BoardModel = .defaultBoard(numRows: 25, numCols: 25)
     @State var isGridShowing: Bool = false
+    @State var speed: Double = 0.1
+    @State var rulesShowing: Bool = false
+    @State var infoShowing: Bool = false
+    @State var isPlaying: Bool = false
     @State var timer = Timer.publish(
         every: 0.1,
         tolerance: 0.5,
@@ -31,7 +35,14 @@ struct GameOfLiveView: View {
                         board.nextGeneration()
                     }
                 Spacer()
-                Text("Controll View")
+                ControlView(
+                    speed: $speed,
+                    isGridShowing: $isGridShowing,
+                    rulesShowing: $rulesShowing,
+                    infoShowing: $infoShowing,
+                    isPlaying: $isPlaying,
+                    boardModel: $board
+                )
             }
             .padding()
         }
