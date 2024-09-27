@@ -4,10 +4,10 @@ struct BoardView: View {
     @Binding var board: BoardModel
     @Binding var isGridShowing: Bool
     
-    private var numRow: Int { board.numRow }
-    private var numColumn: Int { board.numColumn }
+    private var numRows: Int { board.numRow }
+    private var numColumns: Int { board.numColumn }
     private var gridItemLayout: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 0), count: numRow)
+        Array(repeating: GridItem(.flexible(), spacing: 0), count: numRows)
     }
     private var borderColor: Color {
         isGridShowing ? .blue : .clear
@@ -15,18 +15,20 @@ struct BoardView: View {
     
     var body: some View {
         LazyVGrid(columns: gridItemLayout, spacing: 0) {
-            let creature = board.getCreature(i: 0)
-            let vitality = board.vitatlity(creature: 0)
-            let isDead = creature == 0
-            let creatureColor = creatureColor(isDead, vitality)
-            
-            Rectangle()
-                .fill(creatureColor)
-                .border(borderColor)
-                .overlay {
-                    Rectangle()
-                        .stroke(.pink.opacity(0.7), lineWidth: 1)
-                }
+            ForEach(0..<numColumns*numRows, id: \.self) { i in
+                let creature = board.getCreature(i: i)
+                let vitality = board.vitatlity(creature: i)
+                let isDead = creature == 0
+                let creatureColor = creatureColor(isDead, vitality)
+                
+                Rectangle()
+                    .fill(creatureColor)
+                    .border(borderColor)
+            }
+            .overlay {
+                Rectangle()
+                    .stroke(.pink.opacity(0.7), lineWidth: 1)
+            }
             
         }
     }
@@ -38,7 +40,7 @@ struct BoardView: View {
 
 #Preview {
     BoardView(
-        board: .constant(.deafultBoard(numRows: 10, numCol: 10)),
+        board: .constant(.deafultBoard(numRows: 25, numCol: 25)),
         isGridShowing: .constant(false)
     )
 }
