@@ -31,7 +31,7 @@ struct RulesView: View {
             )
             .padding()
             VStack(alignment: .leading, spacing: 20) {
-                RulesCheckBoxView(name: "Survice Rules", rules: $survivalRules)
+                RulesCheckBoxView(name: "Survive Rules", rules: $survivalRules)
                 RulesCheckBoxView(name: "Born Rules", rules: $bornRules)
                 Spacer()
                 HStack {

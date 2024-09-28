@@ -17,11 +17,12 @@ struct RulesCheckBoxView: View {
             HStack {
                 ForEach(0..<9, id: \.self) { index in
                     VStack(spacing: 3) {
-                        Rectangle()
-                            .fill(color(index))
-                            .cornerRadius(5)
-                            .frame(width: 25, height: 25)
-                        Text("\(index + 1)")
+                        ToggleButtonView(
+                            isActive: $rules[index],
+                            action: {},
+                            activeScale: 1.5
+                        )
+                        Text("\(index)")
                             .fontWeight(.semibold)
                     }
                 }
@@ -31,8 +32,11 @@ struct RulesCheckBoxView: View {
 }
 
 #Preview {
-    RulesCheckBoxView(
-        name: "Survival",
-        rules: .constant([false, false, false, true, false, false,false,false,false])
-    )
+    ZStack {
+        bgColor.ignoresSafeArea()
+        RulesCheckBoxView(
+            name: "Survival",
+            rules: .constant([false, false, false, true, false, false,false,false,false])
+        )
+    }
 }
