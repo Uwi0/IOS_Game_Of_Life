@@ -65,7 +65,7 @@ struct RulesView: View {
             }
             .padding()
         }
-        
+        .modifier(GlowingCardModefier())
     }
 }
 
