@@ -4,7 +4,7 @@ struct RulesView: View {
     
     @Binding var survivalRules: [Bool]
     @Binding var bornRules: [Bool]
-    @Binding var rulesSHowing: Bool
+    @Binding var rulesShowing: Bool
     @Binding var disableButton: Bool
     
     var defaultSurvivalRules: [Bool]
@@ -15,7 +15,54 @@ struct RulesView: View {
     @State private var done: Bool = false
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Label(
+                title: {
+                    Text("Rules")
+                        .font(.title)
+                        .fontWeight(.bold)
+                },
+                icon: {
+                    Image(systemName: "text.book.closed")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30)
+                }
+            )
+            .padding()
+            VStack(alignment: .leading, spacing: 20) {
+                Text("SurviveCheckBox")
+                Text("Born Check Box")
+                Spacer()
+                HStack {
+                    Button(
+                        action: {
+                            survivalRules = defaultSurvivalRules
+                            bornRules = defaultBornRules
+                        },
+                        label: {
+                            Text("Default")
+                                .font(.headline)
+                        }
+                    )
+                    Spacer()
+                    Button(
+                        action: {
+                            withAnimation(.linear(duration: CARD_ROTATE_DUTATION)) {
+                                done = true
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + CARD_ROTATE_DUTATION) {
+                                rulesShowing.toggle()
+                                disableButton = false
+                            }
+                        },
+                        label: { Text("Ok")}
+                    )
+                }
+            }
+            .padding()
+        }
+        
     }
 }
 
@@ -23,7 +70,7 @@ struct RulesView: View {
     RulesView(
         survivalRules: .constant([false, false, false, true, false, false,false,false,false]),
         bornRules: .constant([false, false, true, true, false, false,false,false,false]),
-        rulesSHowing: .constant(true),
+        rulesShowing: .constant(true),
         disableButton: .constant(true),
         defaultSurvivalRules: [false, false, false, true, false, false,false,false,false],
         defaultBornRules: [false, false, true, true, false, false,false,false,false]
