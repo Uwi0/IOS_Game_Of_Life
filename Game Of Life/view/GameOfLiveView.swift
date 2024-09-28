@@ -66,6 +66,17 @@ struct GameOfLiveView: View {
                 )
             }
             .padding()
+            
+            if rulesShowing {
+                RulesView(
+                    survivalRules: $board.surviveRules,
+                    bornRules: $board.bornRules,
+                    rulesShowing: $rulesShowing,
+                    disableButton: $disableAllButton,
+                    defaultSurvivalRules: board.defaultSurviveRules,
+                    defaultBornRules: board.bornRules
+                )
+            }
         }
     }
 }
