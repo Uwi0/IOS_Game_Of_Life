@@ -14,7 +14,7 @@ struct ControlView: View {
         isPlaying ? "play" : "pause"
     }
     
-    private let MAX_SPEED: Double = 3
+    private let MAX_SPEED: Double = 10
     
     var body: some View {
         VStack {
