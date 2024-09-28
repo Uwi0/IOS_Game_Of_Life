@@ -77,6 +77,13 @@ struct GameOfLiveView: View {
                     defaultBornRules: board.bornRules
                 )
             }
+            
+            if infoShowing {
+                InfoView(
+                    infoShowing: $infoShowing,
+                    disableAllButtons: $disableAllButton
+                )
+            }
         }
     }
 }
