@@ -45,6 +45,7 @@ struct RulesView: View {
                                 .font(.headline)
                         }
                     )
+                    .buttonStyle(RoundButtonStyle())
                     Spacer()
                     Button(
                         action: {
@@ -56,8 +57,10 @@ struct RulesView: View {
                                 disableButton = false
                             }
                         },
-                        label: { Text("Ok")}
+                        label: { Text("Ok")
+                            .font(.headline)}
                     )
+                    .buttonStyle(RoundButtonStyle())
                 }
             }
             .padding()
@@ -67,12 +70,14 @@ struct RulesView: View {
 }
 
 #Preview {
-    RulesView(
-        survivalRules: .constant([false, false, false, true, false, false,false,false,false]),
-        bornRules: .constant([false, false, true, true, false, false,false,false,false]),
-        rulesShowing: .constant(true),
-        disableButton: .constant(true),
-        defaultSurvivalRules: [false, false, false, true, false, false,false,false,false],
-        defaultBornRules: [false, false, true, true, false, false,false,false,false]
-    )
+    ZStack {
+        RulesView(
+            survivalRules: .constant([false, false, false, true, false, false,false,false,false]),
+            bornRules: .constant([false, false, true, true, false, false,false,false,false]),
+            rulesShowing: .constant(true),
+            disableButton: .constant(true),
+            defaultSurvivalRules: [false, false, false, true, false, false,false,false,false],
+            defaultBornRules: [false, false, true, true, false, false,false,false,false]
+        )
+    }
 }
